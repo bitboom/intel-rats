@@ -22,7 +22,7 @@ test.describe('Intel Attestation explainer', () => {
     await page.goto('/');
 
     await expect(page.getByRole('main')).toBeVisible();
-    for (const sectionId of ['terms', 'roles', 'flows', 'tdx', 'checklist']) {
+    for (const sectionId of ['terms', 'roles', 'flows', 'tdx', 'reference-diagrams', 'checklist']) {
       await expect(page.locator(`#${sectionId}`)).toBeVisible();
     }
 
@@ -64,6 +64,25 @@ test.describe('Intel Attestation explainer', () => {
       await link.click();
       await expect(page).toHaveURL(new RegExp(`${target}$`));
       await expect(page.locator(target!)).toBeVisible();
+    }
+  });
+
+  test('shows licensed external diagrams with source attribution', async ({ page }) => {
+    await page.goto('/');
+
+    const figures = page.locator('#reference-diagrams figure');
+    await expect(figures).toHaveCount(2);
+
+    for (let index = 0; index < 2; index += 1) {
+      const figure = figures.nth(index);
+      const image = figure.locator('img');
+      await image.scrollIntoViewIfNeeded();
+      await expect(image).toBeVisible();
+      await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete)).toBe(true);
+      expect(await image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThan(1_000);
+      await expect(figure.getByRole('link', { name: /Confidential Containers 프로젝트 원본/ })).toBeVisible();
+      await expect(figure.getByRole('link', { name: 'Apache License 2.0' })).toBeVisible();
+      await expect(figure).toContainText('원본 그대로 사용');
     }
   });
 

@@ -3,13 +3,14 @@ import AttestationLayout from '../layouts/AttestationLayout.astro';
 import RoleTrustMap from '../components/RoleTrustMap.astro';
 import SequenceDiagram from '../components/SequenceDiagram.astro';
 import ModelComparison from '../components/ModelComparison.astro';
+const assetBase = import.meta.env.BASE_URL;
 ---
 <AttestationLayout title="Intel Attestation — 신뢰를 전달하는 방법">
   <header class="topbar">
     <nav class="nav shell" aria-label="주요 탐색">
       <a class="wordmark" href="#top">INTEL / ATTESTATION</a>
       <div class="nav-links">
-        <a href="#terms">용어</a><a href="#roles">신뢰 경계</a><a href="#flows">흐름</a><a href="#comparison">비교</a><a href="#tdx">TDX</a><a href="#checklist">체크리스트</a>
+        <a href="#terms">용어</a><a href="#roles">신뢰 경계</a><a href="#flows">흐름</a><a href="#comparison">비교</a><a href="#tdx">TDX</a><a href="#reference-diagrams">참고 도면</a><a href="#checklist">체크리스트</a>
       </div>
     </nav>
   </header>
@@ -67,6 +68,34 @@ import ModelComparison from '../components/ModelComparison.astro';
       </div>
     </section>
 
+    <section class="section shell" id="reference-diagrams" aria-labelledby="reference-diagrams-title">
+      <div class="section-heading">
+        <p class="eyebrow">외부 참고 도면</p>
+        <h2 id="reference-diagrams-title">실제 Confidential Containers 구조와 대조하기</h2>
+        <p>아래 도면은 Intel TDX 전용 규격도가 아니라, TDX를 포함한 하드웨어 TEE에서 Attestation Agent·Key Broker·Attestation Service가 연결되는 구현 사례입니다.</p>
+      </div>
+      <div class="reference-diagrams">
+        <figure>
+          <img src={`${assetBase}images/external/coco-tee-container.png`} alt="Kubernetes Pod가 들어 있는 하드웨어 TEE VM과 Key Broker Service, Attestation Service, 이미지 레지스트리 사이의 키 및 이미지 전달 흐름" loading="lazy" width="1383" height="761" />
+          <figcaption>
+            <strong>Confidential Containers의 VM 기반 TEE·KBS 흐름.</strong>
+            출처: <a href="https://github.com/confidential-containers/confidential-containers/blob/main/images/CC_TEE_container.png">Confidential Containers 프로젝트 원본</a>.
+            라이선스: <a href="https://github.com/confidential-containers/confidential-containers/blob/main/LICENSE">Apache License 2.0</a>.
+            원본 그대로 사용, 확인일 2026-07-16.
+          </figcaption>
+        </figure>
+        <figure>
+          <img src={`${assetBase}images/external/coco-v1-tee.png`} alt="Kubernetes 노드의 Kata Runtime, Micro VM 내부 Attestation Agent, Key Broker와 Attestation Service를 연결한 Confidential Containers v1 구조" loading="lazy" width="1386" height="741" />
+          <figcaption>
+            <strong>Confidential Containers v1 참조 아키텍처.</strong>
+            출처: <a href="https://github.com/confidential-containers/confidential-containers/blob/main/images/COCO_ccv1_TEE.png">Confidential Containers 프로젝트 원본</a>.
+            라이선스: <a href="https://github.com/confidential-containers/confidential-containers/blob/main/LICENSE">Apache License 2.0</a>.
+            원본 그대로 사용, 확인일 2026-07-16.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
     <section class="section shell" aria-labelledby="sgx-title">
       <div class="section-heading"><p class="eyebrow">TDX와 SGX</p><h2 id="sgx-title">둘 다 TEE지만, 증명 대상의 경계가 다릅니다</h2></div>
       <div class="split">
@@ -91,7 +120,7 @@ import ModelComparison from '../components/ModelComparison.astro';
         <article class="source"><strong>Intel PCS</strong><p>검증 collateral의 공급 인터페이스와 현재 API 계약을 확인합니다.</p><a href="https://api.portal.trustedservices.intel.com/documentation">PCS API 문서</a><small>마지막 확인: 2026-07-16</small></article>
         <article class="source"><strong>Intel PCCS</strong><p>PCS collateral을 캐시·제공하는 PCCS의 운영 경계를 확인합니다.</p><a href="https://github.com/intel/SGXDataCenterAttestationPrimitives/tree/master/QuoteGeneration/pccs">PCCS 소스와 문서</a><small>마지막 확인: 2026-07-16</small></article>
       </div>
-      <p class="license-note"><strong>시각 자료 라이선스:</strong> 이 페이지의 역할도·시퀀스·비교 도식은 위 원문의 사실 관계를 바탕으로 직접 작성했으며, 외부 이미지를 복사하거나 임베드하지 않았습니다. 원문 링크는 각 권리자의 사이트에서 확인합니다.</p>
+      <p class="license-note"><strong>시각 자료 라이선스:</strong> 자체 제작 역할도·시퀀스·비교 표현과 Apache-2.0으로 배포된 Confidential Containers 외부 도면을 함께 사용합니다. 외부 도면의 원본·라이선스·변경 여부는 각 이미지 바로 아래에 표시했습니다.</p>
     </section>
   </main>
   <footer class="footer shell">Intel Attestation visual explainer · 보안 정책의 최종 권위는 운영 환경의 승인된 구성입니다.</footer>

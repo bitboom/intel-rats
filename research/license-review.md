@@ -4,31 +4,30 @@
 - 대상: 이 정적 사이트의 텍스트, 코드, 자체 제작 시각물 및 외부 사실 출처 링크
 - 상태: 배포 승인이나 법률 자문이 아닌 내부 기록이다.
 
-## 외부 원문 사용 방식
+## 외부 원문 및 시각 자료 사용 방식
 
-현재 콘텐츠는 IETF RFC 9334 및 Intel의 TDX, DCAP, PCS, PCCS 공개 원문을 사실 확인과 링크 출처로 사용한다. 원문 URL, 발행 기관, 확인일은 `src/content/sources.ts`에 기록되어 있다.
+기술 사실은 IETF RFC 9334 및 Intel의 TDX, DCAP, PCS, PCCS 공개 원문을 근거로 사용한다. 사용자에게 보이는 역할도·시퀀스·비교 표현은 이 저장소에서 독립적으로 작성했다.
 
-- 외부 문서의 이미지, 도표, 스크린샷, 아이콘, 로고를 복사하거나 임베드하지 않는다.
-- 사용자에게 보이는 시각물은 출처 원문에서 확인한 사실 관계를 바탕으로 이 저장소에서 독립적으로 작성한 도형·선·텍스트 표현이다.
-- 독립 제작 시각물은 외부 원문의 레이아웃, 도표 구성, 그래픽 자산을 재현·복제하지 않는다.
-- 출처 링크는 원문 저작권, 상표권 또는 이용 조건을 이전하거나 대체하지 않는다.
+추가로 Confidential Containers 공식 저장소의 외부 도면 2개를 원본 그대로 복제해 로컬 자산으로 제공한다. 해당 저장소는 Apache License 2.0을 적용하며, 각 도면 바로 아래에 프로젝트명, 원본 URL, 라이선스 URL, 변경 여부와 확인일을 표시한다.
+
+| 로컬 자산 | 원본 | SHA-256 | 사용 방식 |
+|---|---|---|---|
+| `public/images/external/coco-tee-container.png` | `https://github.com/confidential-containers/confidential-containers/blob/main/images/CC_TEE_container.png` | `80284383dcd0db0617ba7dd247de838fdfe3ce3fd607458c23a01a344461b4b4` | 원본 그대로 복제 |
+| `public/images/external/coco-v1-tee.png` | `https://github.com/confidential-containers/confidential-containers/blob/main/images/COCO_ccv1_TEE.png` | `45299558967462e1c4003c9230b4b5b88fb03b58f3c706e543d31c978ce3caff` | 원본 그대로 복제 |
+
+- 권리자/발행 기관: Confidential Containers project contributors
+- 원본 저장소: `https://github.com/confidential-containers/confidential-containers`
+- 적용 라이선스: Apache License 2.0
+- 라이선스 원문: `https://github.com/confidential-containers/confidential-containers/blob/main/LICENSE`
+- 확인일: 2026-07-16
+- 외부 이미지에 Intel TDX 전용 규격도라는 의미를 부여하지 않고, TDX를 포함할 수 있는 Confidential Containers 구현 참고 구조로만 설명한다.
+- Intel 문서의 저작권 이미지는 복제하지 않는다.
 
 ## 라이선스 판단 범위
 
-이 검토는 다음을 확인한다.
+이 검토는 외부 도면이 Apache-2.0 저장소에 포함되어 있고 필요한 출처·라이선스 표시가 페이지에 제공되는지를 확인한다. 상표 사용 허가, 법률 자문 또는 사이트 전체 코드의 라이선스를 확정하지 않는다.
 
-1. 현재 사이트에 외부 이미지나 외부 그래픽 자산이 포함되지 않는다는 제작 범위.
-2. 사실 주장의 근거가 공식 원문 URL과 연결된다는 출처 관리 범위.
-3. 외부 원문을 새로 인용·복제·임베드하거나 상표를 사용자 노출 자산으로 추가할 때 별도 이용 조건 검토가 필요하다는 점.
-
-이 검토는 다음을 확정하지 않는다.
-
-- IETF, Intel 또는 기타 제3자 원문의 재사용 허가
-- 상표 사용 허가
-- 저장소 코드 또는 배포 산출물의 라이선스 선택
-- 법률 검토 또는 법률 승인
-
-현재 저장소 루트에는 라이선스·NOTICE 파일이 확인되지 않는다. 따라서 사이트 전체에 특정 라이선스가 적용되거나 외부 사용이 허가되었다고 주장하지 않는다.
+현재 저장소 루트에는 사이트 전체에 적용되는 별도 `LICENSE` 또는 `NOTICE` 파일이 없다. 따라서 외부 도면의 Apache-2.0 조건 외에 저장소 전체가 Apache-2.0으로 배포된다고 주장하지 않는다.
 
 ## 변경 전 검토 절차
 
