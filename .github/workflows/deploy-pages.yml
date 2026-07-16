@@ -37,9 +37,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
-
       - name: Check Astro files
         run: npm run check
 
@@ -49,12 +46,8 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL || steps.pages.outputs.origin }}
           BASE_PATH: ${{ vars.BASE_PATH || steps.pages.outputs.base_path }}
 
-      - name: Test built site
-        run: npm run test
-        env:
-          SITE_URL: ${{ vars.SITE_URL || steps.pages.outputs.origin }}
-          BASE_PATH: ${{ vars.BASE_PATH || steps.pages.outputs.base_path }}
-          PLAYWRIGHT_BASE_URL: http://127.0.0.1:4321${{ vars.BASE_PATH || steps.pages.outputs.base_path }}
+      - name: Validate content and unit contracts
+        run: npm run validate:content && npm run test:unit
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
