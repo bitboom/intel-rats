@@ -1,0 +1,98 @@
+---
+import AttestationLayout from '../layouts/AttestationLayout.astro';
+import RoleTrustMap from '../components/RoleTrustMap.astro';
+import SequenceDiagram from '../components/SequenceDiagram.astro';
+import ModelComparison from '../components/ModelComparison.astro';
+---
+<AttestationLayout title="Intel Attestation — 신뢰를 전달하는 방법">
+  <header class="topbar">
+    <nav class="nav shell" aria-label="주요 탐색">
+      <a class="wordmark" href="#top">INTEL / ATTESTATION</a>
+      <div class="nav-links">
+        <a href="#terms">용어</a><a href="#roles">신뢰 경계</a><a href="#flows">흐름</a><a href="#comparison">비교</a><a href="#tdx">TDX</a><a href="#checklist">체크리스트</a>
+      </div>
+    </nav>
+  </header>
+  <main id="main-content">
+    <section class="hero" id="top">
+      <div class="shell hero-grid">
+        <div>
+          <p class="eyebrow">Confidential Computing Field Guide</p>
+          <h1>증명은 <em>신뢰</em>를<br />운반하는 프로토콜입니다.</h1>
+          <p class="lede">Intel Attestation은 격리된 워크로드의 정체성과 상태를 원격 검증자가 확인하고, 그 결과로 비밀과 접근 권한을 안전하게 결정하도록 돕습니다.</p>
+        </div>
+        <p class="as-of"><strong>기준일 · 2026.07</strong>제품 문서와 공개 인터페이스는 변경될 수 있습니다. 실제 배포에서는 해당 플랫폼의 최신 TCB·정책 문서를 확인하세요.</p>
+      </div>
+    </section>
+
+    <section class="section shell" id="terms" aria-labelledby="terms-title">
+      <div class="section-heading"><p class="eyebrow">공통 언어</p><h2 id="terms-title">먼저, 증명의 단위를 맞춥니다</h2></div>
+      <dl class="terms">
+        <div><dt>Evidence</dt><dd>TEE가 생성한 측정값·서명·플랫폼 상태. 검증의 입력입니다.</dd></div>
+        <div><dt>Claims</dt><dd>Evidence에 주장될 수 있는 사실입니다. Verifier가 Evidence를 appraisal하고, Attestation Result가 그 appraisal 결과와 claims를 전달합니다.</dd></div>
+        <div><dt>Policy</dt><dd>허용할 측정값, TCB 수준, 워크로드 정체성을 정의한 결정 기준입니다.</dd></div>
+        <div><dt>Collateral</dt><dd>인증서, CRL, TCB 정보처럼 Evidence 검증에 필요한 참조 데이터입니다.</dd></div>
+        <div><dt>Nonce</dt><dd>재전송 공격을 막기 위해 요청자가 넣는 일회성 값입니다.</dd></div>
+        <div><dt>Key release</dt><dd>정책이 통과한 워크로드에만 비밀을 전달하는 최종 집행입니다.</dd></div>
+      </dl>
+    </section>
+
+    <section class="section shell" aria-labelledby="planes-title">
+      <div class="section-heading"><p class="eyebrow">두 개의 평면</p><h2 id="planes-title">런타임 증거와 검증 보조 데이터는 분리됩니다</h2></div>
+      <div class="split">
+        <article class="plane runtime"><p class="eyebrow">Runtime plane</p><h3>지금 이 인스턴스가 말하는 것</h3><p>TDX Quote 또는 SGX Quote는 측정값, report data, nonce 결합으로 특정 실행 환경의 현재 상태를 보여 줍니다. 민감한 결정은 이 신선한 증거에 묶입니다.</p></article>
+        <article class="plane collateral"><p class="eyebrow">Collateral plane</p><h3>그 말을 어떻게 검증하는가</h3><p>PCK 인증서, CRL, TCB 정보, QE identity는 서명과 플랫폼 상태를 판정하게 합니다. 캐시할 수 있지만 만료·폐기·갱신 정책이 필수입니다.</p></article>
+      </div>
+    </section>
+
+    <div class="shell"><RoleTrustMap /></div>
+    <div class="shell"><SequenceDiagram /></div>
+    <div class="shell"><ModelComparison /></div>
+
+    <section class="section shell" id="tdx" aria-labelledby="tdx-title">
+      <div class="section-heading"><p class="eyebrow">상세 흐름 · Intel TDX</p><h2 id="tdx-title">Confidential VM 안의 컨테이너가 키를 받기까지</h2><p>컨테이너 이미지를 신뢰한다고 해서 VM과 호스트까지 자동으로 신뢰되는 것은 아닙니다. 정책은 각각의 증거를 명시적으로 결합해야 합니다.</p></div>
+      <div class="tdx-flow">
+        <ol aria-label="TDX Confidential VM 검증 시퀀스">
+          <li><div><strong>컨테이너</strong>가 키 식별자와 workload identity를 요청 맥락으로 VM 내부 Attestation Agent에 전달합니다. 이 값만으로 컨테이너가 신뢰되지는 않습니다.</div></li>
+          <li><div><strong>Agent</strong>가 nonce와 TDREPORT/Quote를 요청하고 report data에 요청 맥락을 결합합니다. 이는 맥락을 해당 TD에 묶지만 컨테이너 정체성을 독립적으로 증명하지는 않습니다.</div></li>
+          <li><div><strong>Quote 서비스</strong>가 TDX Quote와 필요한 collateral 식별자를 Verifier로 보냅니다.</div></li>
+          <li><div><strong>Verifier</strong>가 서명·TCB·TD 측정값·nonce를 확인해 CVM 범위의 claims를 발급합니다. 컨테이너 범위 판단에는 별도의 신뢰 가능한 workload 측정 또는 identity 근거가 필요합니다.</div></li>
+          <li><div><strong>Key Broker</strong>가 서명된 CVM claims와 키 release policy를 대조하고, 컨테이너 전용 키라면 독립적으로 검증된 workload 근거도 요구합니다.</div></li>
+          <li><div><strong>허용 시에만</strong> Broker가 attested VM 또는 신뢰된 Agent에 단기 비밀을 전달하며, 컨테이너 전달은 VM 내부의 별도 신뢰 정책이 집행합니다.</div></li>
+        </ol>
+        <div class="decision" aria-label="Key Broker 정책 결과">
+          <div class="allow"><strong>ALLOW · 키 릴리스</strong><br />TD 측정값, TCB, nonce가 정책과 일치하고, 컨테이너 전용 키에는 독립적인 workload 근거도 확인됐습니다.</div>
+          <div class="deny"><strong>DENY · 키 보류</strong><br />증거 만료, TCB 저하, nonce 불일치, 정책 외 TD 측정값 또는 필요한 workload 근거 부재 시 비밀을 주지 않습니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" aria-labelledby="sgx-title">
+      <div class="section-heading"><p class="eyebrow">TDX와 SGX</p><h2 id="sgx-title">둘 다 TEE지만, 증명 대상의 경계가 다릅니다</h2></div>
+      <div class="split">
+        <article class="plane"><h3>Intel TDX</h3><p>가상 머신 단위의 confidential computing입니다. VM 측정값과 가상화 경계를 중심으로 원격 검증하고, VM 안의 컨테이너 정체성은 별도 정책 입력으로 결합합니다.</p></article>
+        <article class="plane"><h3>Intel SGX</h3><p>프로세스 안의 enclave 단위 격리입니다. enclave의 MRENCLAVE·MRSIGNER 등 enclave 정체성이 정책 핵심이 되며, VM 전체를 증명하는 모델과는 범위가 다릅니다.</p></article>
+      </div>
+    </section>
+
+    <section class="section shell" id="checklist" aria-labelledby="checklist-title">
+      <div class="section-heading"><p class="eyebrow">통합 체크리스트</p><h2 id="checklist-title">‘Quote를 받았다’에서 멈추지 않기</h2></div>
+      <ol class="checklist">
+        <li>각 비밀의 허용 대상과 거부 조건을 정책으로 먼저 씁니다.</li><li>nonce와 요청 맥락을 report data에 결합해 신선성을 확인합니다.</li><li>Quote 검증과 collateral 갱신·폐기 확인을 함께 운영합니다.</li><li>TCB 상태와 측정값의 허용 범위를 버전 관리합니다.</li><li>Verifier 결과를 Key Broker가 검증 가능한 형식으로 받게 합니다.</li><li>허용·거부·만료의 감사 로그에 증거 식별자를 남깁니다.</li>
+      </ol>
+    </section>
+
+    <section class="section shell" id="sources" aria-labelledby="sources-title">
+      <div class="section-heading"><p class="eyebrow">출처와 다음 읽기</p><h2 id="sources-title">구현 전에는 원문 계약을 확인하세요</h2></div>
+      <div class="sources">
+        <article class="source"><strong>Intel Trust Authority</strong><p>attestation 서비스와 검증 API의 현재 지원 범위를 확인합니다.</p><a href="https://www.intel.com/content/www/us/en/security/trust-authority.html">Intel Trust Authority</a><small>마지막 확인: 2026-07-16</small></article>
+        <article class="source"><strong>Intel® TDX</strong><p>TDX 모듈, Quote, TCB 요구사항의 최신 플랫폼 문서입니다.</p><a href="https://www.intel.com/content/www/us/en/developer/tools/trust-domain-extensions/overview.html">Intel TDX 개요</a><small>마지막 확인: 2026-07-16</small></article>
+        <article class="source"><strong>IETF RATS Architecture</strong><p>Passport와 Background Check 모델의 표준 역할·artifact 경계를 확인합니다.</p><a href="https://www.rfc-editor.org/rfc/rfc9334.html">RFC 9334</a><small>마지막 확인: 2026-07-16</small></article>
+        <article class="source"><strong>Intel PCS</strong><p>검증 collateral의 공급 인터페이스와 현재 API 계약을 확인합니다.</p><a href="https://api.portal.trustedservices.intel.com/documentation">PCS API 문서</a><small>마지막 확인: 2026-07-16</small></article>
+        <article class="source"><strong>Intel PCCS</strong><p>PCS collateral을 캐시·제공하는 PCCS의 운영 경계를 확인합니다.</p><a href="https://github.com/intel/SGXDataCenterAttestationPrimitives/tree/master/QuoteGeneration/pccs">PCCS 소스와 문서</a><small>마지막 확인: 2026-07-16</small></article>
+      </div>
+      <p class="license-note"><strong>시각 자료 라이선스:</strong> 이 페이지의 역할도·시퀀스·비교 도식은 위 원문의 사실 관계를 바탕으로 직접 작성했으며, 외부 이미지를 복사하거나 임베드하지 않았습니다. 원문 링크는 각 권리자의 사이트에서 확인합니다.</p>
+    </section>
+  </main>
+  <footer class="footer shell">Intel Attestation visual explainer · 보안 정책의 최종 권위는 운영 환경의 승인된 구성입니다.</footer>
+</AttestationLayout>

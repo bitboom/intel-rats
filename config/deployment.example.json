@@ -1,0 +1,11 @@
+{
+  "production": false,
+  "repository": "owner/repository",
+  "remoteName": "origin",
+  "tokenEnv": "GITHUB_TOKEN",
+  "deploymentRecord": "",
+  "pages": {
+    "buildType": "workflow",
+    "url": "https://owner.github.io/repository/"
+  }
+}

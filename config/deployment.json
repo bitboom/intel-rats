@@ -1,0 +1,10 @@
+{
+  "owner": "bitboom",
+  "repository": "intel-rats",
+  "remoteName": "origin",
+  "defaultBranch": "main",
+  "pagesType": "project",
+  "productionUrl": "https://bitboom.github.io/intel-rats/",
+  "base": "/intel-rats",
+  "pagesSource": "github-actions"
+}

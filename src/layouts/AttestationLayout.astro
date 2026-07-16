@@ -1,0 +1,18 @@
+---
+import '../styles/global.css';
+interface Props { title?: string; }
+const { title = 'Intel Attestation Field Guide' } = Astro.props;
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Intel Confidential Computing Attestation의 역할, 증거, 정책 흐름을 설명하는 시각 가이드" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+    <slot />
+  </body>
+</html>

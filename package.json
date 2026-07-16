@@ -1,0 +1,29 @@
+{
+  "name": "intel-rats",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "validate:content": "tsx scripts/validate-content.ts",
+    "preflight": "tsx scripts/preflight-deploy.ts",
+    "test:unit": "tsx --test tests/evidence-key.spec.ts tests/preflight-deploy.spec.ts",
+    "test:browser": "playwright test",
+    "test": "npm run test:unit && npm run test:browser"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.4",
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.53.1",
+    "astro": "5.10.0",
+    "axe-core": "4.10.3",
+    "linkinator": "6.1.2",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3"
+  }
+}

@@ -1,0 +1,29 @@
+---
+import { roles, roleEdges } from '../content/roles';
+
+---
+<section class="section trust-section" id="roles" aria-labelledby="roles-title">
+  <div class="section-heading">
+    <p class="eyebrow">신뢰 경계</p>
+    <h2 id="roles-title">누가 무엇을 증명하고, 어디까지 믿는가</h2>
+    <p>Attestation은 하나의 ‘신뢰할 수 있음’ 판정이 아닙니다. 역할마다 서명·검증·정책 집행의 책임을 분리해 검증 가능한 사슬을 만듭니다.</p>
+  </div>
+  <div class="trust-map" aria-label="Intel Attestation 역할과 신뢰 흐름">
+    <div class="trust-rail" aria-hidden="true"></div>
+    <div class="role-grid">
+      {roles.map((role, index) => (
+        <article class:list={["role-card", `role-${index + 1}`]}>
+          <span class="role-number">0{index + 1}</span>
+          <h3>{role.label}</h3>
+          <p>{role.description}</p>
+          <span class="boundary-tag">{role.plane}</span>
+        </article>
+      ))}
+    </div>
+  </div>
+  <div class="edge-list" aria-label="역할 간 신뢰 관계">
+    {roleEdges.map((edge) => (
+      <p><span aria-hidden="true">→</span> <strong>{edge.from} → {edge.to}</strong> · {edge.label}: {edge.description}</p>
+    ))}
+  </div>
+</section>

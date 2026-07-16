@@ -1,0 +1,49 @@
+---
+import { roles } from '../content/roles';
+import { sequences } from '../content/sequences';
+import type { RoleId, Sequence } from '../content/schema';
+
+const sequenceList: readonly Sequence[] = sequences;
+const roleName = (id: RoleId) => {
+  const role = roles.find((candidate) => candidate.id === id);
+  if (!role) throw new Error(`Unknown sequence role: ${id}`);
+  return role.label;
+};
+---
+<section class="section sequence-section" id="flows" aria-labelledby="flows-title">
+  <div class="section-heading">
+    <p class="eyebrow">검증 시퀀스</p>
+    <h2 id="flows-title">증거는 어떻게 정책 결정으로 이어지는가</h2>
+    <p>각 줄은 송신자 → 수신자, 순서, 전달 아티팩트를 함께 보존합니다.</p>
+  </div>
+  <div class="sequence-stack">
+    {sequenceList.map((sequence) => (
+      <article class="sequence-card">
+        <header>
+          <span class="model-badge">{sequence.model}</span>
+          <h3>{sequence.label}</h3>
+          <p>{sequence.description}</p>
+        </header>
+        <ol class="message-flow">
+          {sequence.steps.map((step, index) => (
+            <li>
+              <span class="step-index">{String(index + 1).padStart(2, '0')}</span>
+              {(() => {
+                const from = roleName(step.from);
+                const to = roleName(step.to);
+                return <>
+                  <div class="message-route">
+                    <strong>{from}</strong>
+                    <span aria-label="에서 에게">→</span>
+                    <strong>{to}</strong>
+                  </div>
+                  <p><b>{step.artifact}</b> · {step.detail}</p>
+                </>;
+              })()}
+            </li>
+          ))}
+        </ol>
+      </article>
+    ))}
+  </div>
+</section>
