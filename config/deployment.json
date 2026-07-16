@@ -1,10 +1,11 @@
 {
-  "owner": "bitboom",
-  "repository": "intel-rats",
+  "production": true,
+  "repository": "bitboom/intel-rats",
   "remoteName": "origin",
-  "defaultBranch": "main",
-  "pagesType": "project",
-  "productionUrl": "https://bitboom.github.io/intel-rats/",
-  "base": "/intel-rats",
-  "pagesSource": "github-actions"
+  "tokenEnv": "GITHUB_TOKEN",
+  "deploymentRecord": "GitHub Pages public repository deployment approved by repo-admin bitboom on 2026-07-16.",
+  "pages": {
+    "buildType": "workflow",
+    "url": "https://bitboom.github.io/intel-rats/"
+  }
 }
