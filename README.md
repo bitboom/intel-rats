@@ -30,6 +30,15 @@ npm run test
 
 출처와 확인일은 설명의 일부입니다. 링크만 바꾸거나 날짜만 일괄 갱신하지 않습니다.
 
+## Canonical Point와 발표 산출물
+
+현재 발표·검토용 canonical Point와 paired To Deck 결과물은 사이트 콘텐츠 소스와 분리해 보관합니다.
+
+- [Passed Point v04](docs/point/intel-tdx-attestation-point-v04.md) — SHA·model·gate가 함께 제공됩니다.
+- [Intel TDX attestation prose v3 delivery](docs/deliveries/intel-tdx-attestation-prose-v3/) — 2-slide Summary, 16-slide Structural PPTX, semantic/package gate, final report, portable review trail을 제공합니다.
+
+이 산출물은 Intel-rats를 production verifier baseline 또는 배포 승인으로 주장하지 않으며, teaching/design-review scope를 유지합니다.
+
 ## 라이선스 갱신
 
 현재 저장소에 라이선스 파일이 추가되거나 변경되면 이 문서의 라이선스 안내와 배포 산출물의 저작권 표기를 같은 변경에서 갱신합니다. 외부 출처의 문장·도표·상표는 해당 원문의 이용 조건을 먼저 확인하고, 필요한 귀속과 링크를 보존합니다.
